@@ -6,7 +6,34 @@
         xmlns:local="clr-namespace:Project_OOP"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <StackPanel>
+        <GroupBox Margin="10" BorderThickness="2" Header="zichtrekening">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="10">saldo:</Label>
+                    <Label Margin="10" Name="lblSaldoZicht"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="10">storten / afhalen:</Label>
+                    <TextBox Margin="10" Width="75" Name="tbxZicht"></TextBox>
+                    <Button Margin="10" Width="30" FontSize="15" Name="btn_Storten_Zicht" Click="btnStortenAfhalen_Click">+</Button>
+                    <Button Margin="10" Width="30" FontSize="15" Name="btn_Afhalen_Zicht" Click="btnStortenAfhalen_Click">-</Button>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Margin="10" BorderThickness="2" Header="spaarrekening">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="10">saldo:</Label>
+                    <Label Margin="10" Name="lblSaldoSpaar"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="10">storten / afhalen:</Label>
+                    <TextBox Margin="10" Width="75" Name="tbxSpaar"></TextBox>
+                    <Button Margin="10" Width="30" FontSize="15" Name="btn_Storten_Spaar" Click="btnStortenAfhalen_Click">+</Button>
+                    <Button Margin="10" Width="30" FontSize="15" Name="btn_Afhalen_Spaar" Click="btnStortenAfhalen_Click">-</Button>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+    </StackPanel>
 </Window>
