@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace Vives
 {
-    internal class zichtrekening:rekening
+    internal class Zichtrekening:Rekening
     {
         public override double Saldo { get; set; }
+
+        public override string VisualSaldo()
+        {
+            return $"{Math.Round(Saldo, 2)} \u20AC";
+        }
     }
 }

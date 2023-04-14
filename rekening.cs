@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_OOP
+namespace Vives
 {
-    abstract class rekening
+    abstract class Rekening
     { 
         public abstract double Saldo { get; set; }
+
+        public abstract string VisualSaldo();
     }
 }
