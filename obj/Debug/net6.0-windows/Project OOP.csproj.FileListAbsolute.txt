@@ -19,5 +19,6 @@ C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\obj\Debug\net6.0
 C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\obj\Debug\net6.0-windows\Project OOP.pdb
 C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\obj\Debug\net6.0-windows\Project OOP.genruntimeconfig.cache
 C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\obj\Debug\net6.0-windows\ref\Project OOP.dll
-C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\bin\Debug\net6.0-windows\Saldos.json
 C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\obj\Debug\net6.0-windows\Project OOP_Content.g.cs
+C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\bin\Debug\net6.0-windows\JsonFiles\SpaarSaldos.json
+C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\bin\Debug\net6.0-windows\JsonFiles\ZichtSaldos.json

@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("saldos.json")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("jsonfiles/spaarsaldos.json")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("jsonfiles/zichtsaldos.json")]
 
 

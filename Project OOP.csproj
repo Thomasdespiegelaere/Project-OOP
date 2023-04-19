@@ -9,13 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Saldos.json" />
+    <None Remove="JsonFiles\SpaarSaldos.json" />
+    <None Remove="JsonFiles\ZichtSaldos.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Saldos.json">
+    <Content Include="JsonFiles\SpaarSaldos.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JsonFiles\ZichtSaldos.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

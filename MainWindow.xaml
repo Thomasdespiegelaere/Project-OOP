@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_OOP"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Finance Tracker" Height="450" Width="800">
     <StackPanel>
         <GroupBox Margin="10" BorderThickness="2" Header="zichtrekening">
             <StackPanel>
@@ -35,5 +35,10 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
+        <Canvas x:Name="cnvs_grafiek" Height="100" Margin="10, 100 ,10 ,10" Width="700">
+            <Canvas.RenderTransform>
+                <ScaleTransform ScaleY="-1"/>
+            </Canvas.RenderTransform>
+        </Canvas>
     </StackPanel>
 </Window>
