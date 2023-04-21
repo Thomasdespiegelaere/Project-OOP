@@ -31,7 +31,7 @@ namespace Project_OOP
 
         Spaarrekening spaarrekening = new Spaarrekening();
 
-        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        //string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         /*string _jsonfile = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName)
              + "\\JsonFiles\\Saldos.json";*/
         string _jsonZicht = @"C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\JsonFiles\ZichtSaldos.json";
@@ -45,32 +45,8 @@ namespace Project_OOP
             spaarrekening.Saldo = spaarrekening.readJson(_jsonSpaar);
             lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
 
-            double breedteinterval = cnvs_grafiek.Width / zichtrekening.zichtSaldos.Count;
-            for (int i = 0; i < zichtrekening.zichtSaldos.Count; i++)
-            {
-                Line lijn = new Line();
-                lijn.X1 = breedteinterval * i;
-                if (i > 0)
-                {
-                    lijn.Y1 = zichtrekening.zichtSaldos.ElementAt(i - 1).Saldo;
-                }
-                else
-                {
-                    lijn.Y1 = zichtrekening.zichtSaldos.ElementAt(i).Saldo;
-                }
-                lijn.X2 = lijn.X1 + breedteinterval;
-                lijn.Y2 = zichtrekening.zichtSaldos.ElementAt(i).Saldo;
-                lijn.Stroke = new SolidColorBrush(Colors.Blue);
-
-                TextBlock textBlock = new TextBlock();
-                textBlock.Text = zichtrekening.zichtSaldos.ElementAt(i).Saldo.ToString();
-                textBlock.Foreground = new SolidColorBrush(Colors.Black);
-                textBlock.Margin = new Thickness(lijn.X2, lijn.Y2, 0, 0);
-                textBlock.RenderTransform = new ScaleTransform(1, -1);
-                cnvs_grafiek.Children.Add(textBlock);
-
-                cnvs_grafiek.Children.Add(lijn);
-            }            
+            zichtrekening.UpdateGrafiek(cnvs_grafiek);
+            cbx_rekeningen.SelectedIndex = 0;
         }
 
         private void btnStortenAfhalen_Click(object sender, RoutedEventArgs e)
@@ -81,31 +57,51 @@ namespace Project_OOP
             {
                 if (transactie[1] == "Storten")
                 {
-                    zichtrekening.Saldo += Convert.ToDouble(tbxZicht.Text);
+                    zichtrekening.Saldo += Convert.ToDouble(tbxZicht.Text.Replace('.', ','));
                     zichtrekening.WriteJson(_jsonZicht);
                     lblSaldoZicht.Content = zichtrekening.VisualSaldo();
+                    zichtrekening.UpdateGrafiek(cnvs_grafiek);
                 }
                 else
                 {
-                    zichtrekening.Saldo -= Convert.ToDouble(tbxZicht.Text);
+                    zichtrekening.Saldo -= Convert.ToDouble(tbxZicht.Text.Replace('.', ','));
                     zichtrekening.WriteJson(_jsonZicht);
                     lblSaldoZicht.Content = zichtrekening.VisualSaldo();
+                    zichtrekening.UpdateGrafiek(cnvs_grafiek);
                 }                
             }
             else
             {
                 if (transactie[1] == "Storten")
                 {
-                    spaarrekening.Saldo += Convert.ToDouble(tbxSpaar.Text);
+                    spaarrekening.Saldo += Convert.ToDouble(tbxSpaar.Text.Replace('.', ','));
                     spaarrekening.WriteJson(_jsonSpaar);
                     lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
+                    spaarrekening.UpdateGrafiek(cnvs_grafiek);
                 }
                 else
                 {
-                    spaarrekening.Saldo -= Convert.ToDouble(tbxSpaar.Text);
+                    spaarrekening.Saldo -= Convert.ToDouble(tbxSpaar.Text.Replace('.', ','));
                     spaarrekening.WriteJson(_jsonSpaar);
                     lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
+                    spaarrekening.UpdateGrafiek(cnvs_grafiek);
                 }
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbx_rekeningen.SelectedIndex == 0)
+            {
+                Rekening.ToonZichtGrafiek = true;
+                Rekening.ToonSpaarGrafiek = false;
+                zichtrekening.UpdateGrafiek(cnvs_grafiek);
+            }
+            else
+            {
+                Rekening.ToonZichtGrafiek = false;
+                Rekening.ToonSpaarGrafiek = true;
+                spaarrekening.UpdateGrafiek(cnvs_grafiek);
             }
         }
     }
