@@ -30,22 +30,29 @@ namespace Project_OOP
         Zichtrekening zichtrekening = new Zichtrekening();
 
         Spaarrekening spaarrekening = new Spaarrekening();
-
-        //string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        /*string _jsonfile = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName)
-             + "\\JsonFiles\\Saldos.json";*/
-        string _jsonZicht = @"C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\JsonFiles\ZichtSaldos.json";
-        string _jsonSpaar = @"C:\Users\tdesp\OneDrive\Documenten\Vives Fase 1\OOP\Project OOP\JsonFiles\SpaarSaldos.json";
+        
+        string _jsonZicht = "";
+        string _jsonSpaar = "";
 
         public MainWindow()
         {
             InitializeComponent();
+
+            string directoryName = Environment.CurrentDirectory;
+
+            for (int i = 0; i < 3; i++)
+            {
+                directoryName = System.IO.Path.GetDirectoryName(directoryName);
+            }
+            _jsonZicht = directoryName + @"\JsonFiles\ZichtSaldos.json";
+            _jsonSpaar = directoryName + @"\JsonFiles\SpaarSaldos.json";
+
             zichtrekening.Saldo = zichtrekening.readJson(_jsonZicht);
             lblSaldoZicht.Content = zichtrekening.VisualSaldo();
             spaarrekening.Saldo = spaarrekening.readJson(_jsonSpaar);
             lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
 
-            zichtrekening.UpdateGrafiek(cnvs_grafiek);
+            Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
             cbx_rekeningen.SelectedIndex = 0;
         }
 
@@ -57,34 +64,34 @@ namespace Project_OOP
             {
                 if (transactie[1] == "Storten")
                 {
-                    zichtrekening.Saldo += Convert.ToDouble(tbxZicht.Text.Replace('.', ','));
+                    zichtrekening.Saldo += checkinput(tbxZicht.Text);
                     zichtrekening.WriteJson(_jsonZicht);
                     lblSaldoZicht.Content = zichtrekening.VisualSaldo();
-                    zichtrekening.UpdateGrafiek(cnvs_grafiek);
+                    Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
                 }
                 else
                 {
-                    zichtrekening.Saldo -= Convert.ToDouble(tbxZicht.Text.Replace('.', ','));
+                    zichtrekening.Saldo -= checkinput(tbxZicht.Text);
                     zichtrekening.WriteJson(_jsonZicht);
                     lblSaldoZicht.Content = zichtrekening.VisualSaldo();
-                    zichtrekening.UpdateGrafiek(cnvs_grafiek);
+                    Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
                 }                
             }
             else
             {
                 if (transactie[1] == "Storten")
                 {
-                    spaarrekening.Saldo += Convert.ToDouble(tbxSpaar.Text.Replace('.', ','));
+                    spaarrekening.Saldo += checkinput(tbxSpaar.Text);
                     spaarrekening.WriteJson(_jsonSpaar);
                     lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
-                    spaarrekening.UpdateGrafiek(cnvs_grafiek);
+                    Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening); ;
                 }
                 else
                 {
-                    spaarrekening.Saldo -= Convert.ToDouble(tbxSpaar.Text.Replace('.', ','));
+                    spaarrekening.Saldo -= checkinput(tbxSpaar.Text);
                     spaarrekening.WriteJson(_jsonSpaar);
                     lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
-                    spaarrekening.UpdateGrafiek(cnvs_grafiek);
+                    Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
                 }
             }
         }
@@ -93,16 +100,51 @@ namespace Project_OOP
         {
             if (cbx_rekeningen.SelectedIndex == 0)
             {
-                Rekening.ToonZichtGrafiek = true;
-                Rekening.ToonSpaarGrafiek = false;
-                zichtrekening.UpdateGrafiek(cnvs_grafiek);
+                Grafiek.ToonZichtGrafiek = true;
+                Grafiek.ToonSpaarGrafiek = false;
+                Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
             }
             else
             {
-                Rekening.ToonZichtGrafiek = false;
-                Rekening.ToonSpaarGrafiek = true;
-                spaarrekening.UpdateGrafiek(cnvs_grafiek);
+                Grafiek.ToonZichtGrafiek = false;
+                Grafiek.ToonSpaarGrafiek = true;
+                Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
             }
+        }
+
+        public double checkinput(string input)
+        {
+            double saldo;
+
+            try
+            {
+                saldo = Convert.ToDouble(input);
+            }
+            catch (FormatException)
+            {
+                saldo = Convert.ToDouble(input.Replace('.', ','));
+            }
+
+            if (saldo <= 0)
+            {
+                MessageBox.Show("Je moet een getal groter dan nul ingeven");
+                return 0;
+            }
+            return saldo;
+        }
+
+        private void btn_detail_Click(object sender, RoutedEventArgs e)
+        {
+            Grafiek.gedetaileerdenummers = !Grafiek.gedetaileerdenummers;
+            if (Grafiek.gedetaileerdenummers == true)
+            {
+                btn_detail.Icon = "X";
+            }
+            else
+            {
+                btn_detail.Icon = "";
+            }
+            Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
         }
     }
 }

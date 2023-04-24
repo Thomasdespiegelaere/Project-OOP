@@ -7,6 +7,15 @@
         mc:Ignorable="d"
         Title="Finance Tracker" Height="550" Width="800">
     <StackPanel>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top" Name="mb" Background="White" BorderBrush="White" Foreground="Black">
+                <MenuItem Header="Settings">
+                    <MenuItem Icon="" Header="Detailed numbers" Name="btn_detail" Click="btn_detail_Click" Foreground="Black"/>
+                    <MenuItem Header="Dark Mode" Name="btn_DarkMode" Foreground="Black"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
         <GroupBox Margin="10" BorderThickness="2" Header="zichtrekening">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
