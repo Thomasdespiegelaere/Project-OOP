@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Vives
 {
@@ -45,6 +46,12 @@ namespace Vives
                 r.Close();
             }
             return Saldos.Last().Saldo;
+        }
+
+        public void RenteSpaarRekening(string _jsonfile)
+        {
+            Saldo *= 1.01;
+            WriteJson(_jsonfile);            
         }
     }
 }

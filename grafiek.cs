@@ -16,6 +16,7 @@ namespace Vives
         public static bool ToonZichtGrafiek { get; set; }
         public static bool ToonSpaarGrafiek { get; set; }
         public static bool gedetaileerdenummers { get; set; }
+        public static Brush? kleur { get; set; }
 
         public static void UpdateGrafiek(Canvas cnvs_grafiek, Zichtrekening zichtrekening, Spaarrekening spaarrekening)
         {
@@ -49,22 +50,31 @@ namespace Vives
                     }
                     lijn.X2 = lijn.X1 + breedteinterval;
                     lijn.Y2 = zichtrekening.Saldos.ElementAt(i).Saldo * hoogteinterval;
-                    lijn.Stroke = new SolidColorBrush(Colors.Blue);
+                    lijn.Stroke = kleur;
 
                     if (gedetaileerdenummers == true)
                     {
-                        TextBlock textBlock = new TextBlock();                       
+                        TextBlock textBlock = new TextBlock();
+                        textBlock.FontSize = 10;
                         textBlock.Text = zichtrekening.Saldos.ElementAt(i).Saldo.ToString();
                         textBlock.Foreground = new SolidColorBrush(Colors.Black);
                         textBlock.Margin = new Thickness(lijn.X2, lijn.Y2 + 20, 0, 0);
                         textBlock.RenderTransform = new ScaleTransform(1, -1);
                         cnvs_grafiek.Children.Add(textBlock);
+
+                        Ellipse ellipse = new Ellipse();
+                        ellipse.Margin = new Thickness(lijn.X2 - 2, lijn.Y2 - 2, 0, 0);
+                        ellipse.Height = 5;
+                        ellipse.Width = 5;
+                        ellipse.StrokeThickness = 1;
+                        ellipse.Fill = kleur;
+                        cnvs_grafiek.Children.Add(ellipse);
                     }
 
                     TextBlock X_waarde = new TextBlock();
                     X_waarde.Text = i.ToString();
                     X_waarde.Foreground = new SolidColorBrush(Colors.Black);
-                    X_waarde.Margin = new Thickness(lijn.X2, 0, 0, 0);
+                    X_waarde.Margin = new Thickness(lijn.X2 - 2, 0, 0, 0);
                     X_waarde.RenderTransform = new ScaleTransform(1, -1);
                     cnvs_grafiek.Children.Add(X_waarde);
 
@@ -102,7 +112,7 @@ namespace Vives
                     }
                     lijn.X2 = lijn.X1 + breedteinterval;
                     lijn.Y2 = spaarrekening.Saldos.ElementAt(i).Saldo * hoogteinterval;
-                    lijn.Stroke = new SolidColorBrush(Colors.Blue);
+                    lijn.Stroke = kleur;
 
                     if (gedetaileerdenummers == true)
                     {
@@ -112,12 +122,20 @@ namespace Vives
                         textBlock.Margin = new Thickness(lijn.X2, lijn.Y2 + 20, 0, 0);
                         textBlock.RenderTransform = new ScaleTransform(1, -1);
                         cnvs_grafiek.Children.Add(textBlock);
+
+                        Ellipse ellipse = new Ellipse();
+                        ellipse.Margin = new Thickness(lijn.X2 - 2, lijn.Y2 - 2, 0, 0);
+                        ellipse.Height = 5;
+                        ellipse.Width = 5;
+                        ellipse.StrokeThickness = 1;
+                        ellipse.Fill = kleur;
+                        cnvs_grafiek.Children.Add(ellipse);
                     }                    
 
                     TextBlock X_waarde = new TextBlock();
                     X_waarde.Text = i.ToString();
                     X_waarde.Foreground = new SolidColorBrush(Colors.Black);
-                    X_waarde.Margin = new Thickness(lijn.X2, 0, 0, 0);
+                    X_waarde.Margin = new Thickness(lijn.X2 - 2,  0, 0, 0);
                     X_waarde.RenderTransform = new ScaleTransform(1, -1);
                     cnvs_grafiek.Children.Add(X_waarde);
 

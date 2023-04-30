@@ -1,0 +1,17 @@
+﻿<Window x:Class="Project_OOP.Geschiedenis"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Project_OOP"
+        mc:Ignorable="d"
+        Title="Geschiedenis" Height="550" Width="800">
+    <StackPanel>
+        <GroupBox Margin="10" BorderThickness="2" Header="zichtrekening">
+            <RichTextBox Name="tbx_zicht" Height="190" VerticalScrollBarVisibility="Visible" Margin="10"></RichTextBox>            
+        </GroupBox>
+        <GroupBox Margin="10" BorderThickness="2" Header="spaarrekening">
+            <RichTextBox Name="tbx_spaar" Height="190" VerticalScrollBarVisibility="Visible" Margin="10"></RichTextBox>
+        </GroupBox>
+    </StackPanel>
+</Window>

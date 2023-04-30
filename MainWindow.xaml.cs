@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Vives;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -30,6 +31,8 @@ namespace Project_OOP
         Zichtrekening zichtrekening = new Zichtrekening();
 
         Spaarrekening spaarrekening = new Spaarrekening();
+
+        DispatcherTimer _timer = new DispatcherTimer();
         
         string _jsonZicht = "";
         string _jsonSpaar = "";
@@ -52,8 +55,20 @@ namespace Project_OOP
             spaarrekening.Saldo = spaarrekening.readJson(_jsonSpaar);
             lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
 
-            Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
             cbx_rekeningen.SelectedIndex = 0;
+            Grafiek.kleur = Brushes.Blue;
+            Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
+
+            _timer.Interval = TimeSpan.FromMinutes(1);
+            _timer.Tick += _timer_Tick;
+            _timer.Start();
+        }
+
+        private void _timer_Tick(object? sender, EventArgs e)
+        {
+            spaarrekening.RenteSpaarRekening(_jsonSpaar);
+            lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
+            Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
         }
 
         private void btnStortenAfhalen_Click(object sender, RoutedEventArgs e)
@@ -62,37 +77,11 @@ namespace Project_OOP
             string[] transactie = zender.Name.Split("_");
             if (transactie[2] == "Zicht")
             {
-                if (transactie[1] == "Storten")
-                {
-                    zichtrekening.Saldo += checkinput(tbxZicht.Text);
-                    zichtrekening.WriteJson(_jsonZicht);
-                    lblSaldoZicht.Content = zichtrekening.VisualSaldo();
-                    Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
-                }
-                else
-                {
-                    zichtrekening.Saldo -= checkinput(tbxZicht.Text);
-                    zichtrekening.WriteJson(_jsonZicht);
-                    lblSaldoZicht.Content = zichtrekening.VisualSaldo();
-                    Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
-                }                
+                StortenAfhalenZicht(transactie);                           
             }
             else
             {
-                if (transactie[1] == "Storten")
-                {
-                    spaarrekening.Saldo += checkinput(tbxSpaar.Text);
-                    spaarrekening.WriteJson(_jsonSpaar);
-                    lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
-                    Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening); ;
-                }
-                else
-                {
-                    spaarrekening.Saldo -= checkinput(tbxSpaar.Text);
-                    spaarrekening.WriteJson(_jsonSpaar);
-                    lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
-                    Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
-                }
+                StortenAfhalenSpaar(transactie);                
             }
         }
 
@@ -145,6 +134,126 @@ namespace Project_OOP
                 btn_detail.Icon = "";
             }
             Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
+        }
+
+        private void btn_kleur_Click(object sender, RoutedEventArgs e)
+        {
+            if (Grafiek.kleur == Brushes.Blue)
+            {
+                btn_kleur.Icon = "X";
+                Grafiek.kleur = Brushes.Red;
+            }
+            else
+            {
+                btn_kleur.Icon = "";
+                Grafiek.kleur = Brushes.Blue;
+            }
+            Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
+        }
+
+        private void StortenAfhalenZicht(string[] transactie)
+        {
+            if (transactie[1] == "Storten")
+            {
+                zichtrekening.Saldo += checkinput(tbxZicht.Text);
+                zichtrekening.WriteJson(_jsonZicht);
+                lblSaldoZicht.Content = zichtrekening.VisualSaldo();
+                Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
+            }
+            else
+            {
+                zichtrekening.Saldo -= checkinput(tbxZicht.Text);
+                zichtrekening.WriteJson(_jsonZicht);
+                lblSaldoZicht.Content = zichtrekening.VisualSaldo();
+                Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
+            }
+        }
+
+        private void StortenAfhalenSpaar(string[] transactie)
+        {
+            if (transactie[1] == "Storten")
+            {
+                spaarrekening.Saldo += checkinput(tbxSpaar.Text);
+                spaarrekening.WriteJson(_jsonSpaar);
+                lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
+                Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
+            }
+            else
+            {
+                spaarrekening.Saldo -= checkinput(tbxSpaar.Text);
+                spaarrekening.WriteJson(_jsonSpaar);
+                lblSaldoSpaar.Content = spaarrekening.VisualSaldo();
+                Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
+            }
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Geschiedenis geschiedenis = new Geschiedenis();
+            geschiedenis.Title = "Geschiedenis";
+            //geschiedenis.tbx_zicht.Text = "";
+            double previous = -1;
+            for (int i = zichtrekening.Saldos.Count - 1; i >= 0; i--)
+            {
+                double x = zichtrekening.Saldos.ElementAt(i).Saldo;
+                if (previous > 0)
+                {
+                    double transactie = previous - x;
+                    if (transactie > 0)
+                    {
+                        string text = "+" + Math.Round(transactie, 2).ToString();
+                        Paragraph paragraph = new Paragraph();
+                        Run run = new Run(text);
+                        run.Foreground = Brushes.Green;
+                        paragraph.Inlines.Add(run);
+                        geschiedenis.tbx_zicht.Document.Blocks.Add(paragraph);
+                    }
+                    else
+                    {
+                        Paragraph paragraph = new Paragraph();
+                        Run run = new Run(Math.Round(transactie, 2).ToString());
+                        run.Foreground = Brushes.Red;                    
+                        paragraph.Inlines.Add(run);
+                        geschiedenis.tbx_zicht.Document.Blocks.Add(paragraph);
+                    }
+                    previous = x;
+                }
+                else
+                {
+                    previous = x;
+                }
+            }
+            previous = -1;
+            for (int i = spaarrekening.Saldos.Count - 1; i >= 0; i--)
+            {
+                double x = spaarrekening.Saldos.ElementAt(i).Saldo;
+                if (previous > 0)
+                {
+                    double transactie = previous - x;
+                    if (transactie > 0)
+                    {
+                        string text = "+" + Math.Round(transactie, 2).ToString();
+                        Paragraph paragraph = new Paragraph();
+                        Run run = new Run(text);
+                        run.Foreground = Brushes.Green;
+                        paragraph.Inlines.Add(run);
+                        geschiedenis.tbx_spaar.Document.Blocks.Add(paragraph);
+                    }
+                    else
+                    {
+                        Paragraph paragraph = new Paragraph();
+                        Run run = new Run(Math.Round(transactie, 2).ToString());
+                        run.Foreground = Brushes.Red;
+                        paragraph.Inlines.Add(run);
+                        geschiedenis.tbx_spaar.Document.Blocks.Add(paragraph);
+                    }
+                    previous = x;
+                }
+                else
+                {
+                    previous = x;
+                }
+            }
+            geschiedenis.Show();
         }
     }
 }

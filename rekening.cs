@@ -16,8 +16,6 @@ namespace Vives
     { 
         public abstract double Saldo { get; set; }
 
-        public List<Rekening> Saldos = new List<Rekening>();
-
         public abstract string VisualSaldo();
 
         public abstract void WriteJson(string _jsonfile);

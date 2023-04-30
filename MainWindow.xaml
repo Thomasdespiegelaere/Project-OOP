@@ -10,8 +10,9 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top" Name="mb" Background="White" BorderBrush="White" Foreground="Black">
                 <MenuItem Header="Settings">
-                    <MenuItem Icon="" Header="Detailed numbers" Name="btn_detail" Click="btn_detail_Click" Foreground="Black"/>
-                    <MenuItem Header="Dark Mode" Name="btn_DarkMode" Foreground="Black"/>
+                    <MenuItem Icon="" Header="Detailed numbers" Name="btn_detail" Click="btn_detail_Click"/>
+                    <MenuItem Icon="" Header="Kleur" Name="btn_kleur" Click="btn_kleur_Click"/>
+                    <MenuItem Header="Geschiedenis" Click="Button_Click"></MenuItem>
                 </MenuItem>
             </Menu>
             <StackPanel></StackPanel>
@@ -44,7 +45,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <ComboBox Name="cbx_rekeningen" Width="100" HorizontalAlignment="Left" Margin="10" SelectionChanged="ComboBox_SelectionChanged">
+        <ComboBox Name="cbx_rekeningen" Width="110" HorizontalAlignment="Left" Margin="10" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem>Zichtrekening</ComboBoxItem>
             <ComboBoxItem>Spaarrekening</ComboBoxItem>
         </ComboBox>
