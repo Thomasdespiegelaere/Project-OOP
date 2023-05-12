@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_OOP"
         mc:Ignorable="d"
-        Title="Finance Tracker" Height="550" Width="800">
+        Title="Finance Tracker" Height="550" Width="800" SizeChanged="Window_SizeChanged" MinHeight="550" MinWidth="800" StateChanged="Window_StateChanged">
     <StackPanel>
         <DockPanel>
             <Menu DockPanel.Dock="Top" Name="mb" Background="White" BorderBrush="White" Foreground="Black">
@@ -25,7 +25,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="10">storten / afhalen:</Label>
-                    <TextBox Margin="10" Width="75" Name="tbxZicht"></TextBox>
+                    <TextBox PreviewTextInput="PreviewTextInput" Margin="10" Width="75" Name="tbxZicht"></TextBox>
                     <Button Margin="10" Width="30" FontSize="15" Name="btn_Storten_Zicht" Click="btnStortenAfhalen_Click">+</Button>
                     <Button Margin="10" Width="30" FontSize="15" Name="btn_Afhalen_Zicht" Click="btnStortenAfhalen_Click">-</Button>
                 </StackPanel>
@@ -39,7 +39,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="10">storten / afhalen:</Label>
-                    <TextBox Margin="10" Width="75" Name="tbxSpaar"></TextBox>
+                    <TextBox PreviewTextInput="PreviewTextInput" Margin="10" Width="75" Name="tbxSpaar"></TextBox>
                     <Button Margin="10" Width="30" FontSize="15" Name="btn_Storten_Spaar" Click="btnStortenAfhalen_Click">+</Button>
                     <Button Margin="10" Width="30" FontSize="15" Name="btn_Afhalen_Spaar" Click="btnStortenAfhalen_Click">-</Button>
                 </StackPanel>
@@ -49,7 +49,7 @@
             <ComboBoxItem>Zichtrekening</ComboBoxItem>
             <ComboBoxItem>Spaarrekening</ComboBoxItem>
         </ComboBox>
-        <Canvas x:Name="cnvs_grafiek" Height="100" Margin="10, 100 ,10 ,10" Width="700">
+        <Canvas x:Name="cnvs_grafiek" Height="100" Margin="10, 150 ,10 ,10" Width="700">
             <Canvas.RenderTransform>
                 <ScaleTransform ScaleY="-1"/>
             </Canvas.RenderTransform>

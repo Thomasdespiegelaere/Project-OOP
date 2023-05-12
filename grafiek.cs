@@ -18,131 +18,76 @@ namespace Vives
         public static bool gedetaileerdenummers { get; set; }
         public static Brush? kleur { get; set; }
 
-        public static void UpdateGrafiek(Canvas cnvs_grafiek, Zichtrekening zichtrekening, Spaarrekening spaarrekening)
+        public static void UpdateGrafiek(Canvas cnvs_grafiek, Zichtrekening sichtrekening, Spaarrekening spaarrekening)
         {
+            dynamic rekening;
             if (ToonZichtGrafiek == true)
             {
-                double grootsteSaldo = 0;
-
-                cnvs_grafiek.Children.Clear();
-                double breedteinterval = cnvs_grafiek.Width / zichtrekening.Saldos.Count;
-
-                for (int i = 0; i < zichtrekening.Saldos.Count; i++)
-                {
-                    if (zichtrekening.Saldos.ElementAt(i).Saldo > grootsteSaldo)
-                    {
-                        grootsteSaldo = zichtrekening.Saldos.ElementAt(i).Saldo;
-                    }
-                }
-                double hoogteinterval = cnvs_grafiek.Height / grootsteSaldo;
-
-                for (int i = 0; i < zichtrekening.Saldos.Count; i++)
-                {
-                    Line lijn = new Line();
-                    lijn.X1 = breedteinterval * i;
-                    if (i > 0)
-                    {
-                        lijn.Y1 = zichtrekening.Saldos.ElementAt(i - 1).Saldo * hoogteinterval;
-                    }
-                    else
-                    {
-                        lijn.Y1 = zichtrekening.Saldos.ElementAt(i).Saldo * hoogteinterval;
-                    }
-                    lijn.X2 = lijn.X1 + breedteinterval;
-                    lijn.Y2 = zichtrekening.Saldos.ElementAt(i).Saldo * hoogteinterval;
-                    lijn.Stroke = kleur;
-
-                    if (gedetaileerdenummers == true)
-                    {
-                        TextBlock textBlock = new TextBlock();
-                        textBlock.FontSize = 10;
-                        textBlock.Text = zichtrekening.Saldos.ElementAt(i).Saldo.ToString();
-                        textBlock.Foreground = new SolidColorBrush(Colors.Black);
-                        textBlock.Margin = new Thickness(lijn.X2, lijn.Y2 + 20, 0, 0);
-                        textBlock.RenderTransform = new ScaleTransform(1, -1);
-                        cnvs_grafiek.Children.Add(textBlock);
-
-                        Ellipse ellipse = new Ellipse();
-                        ellipse.Margin = new Thickness(lijn.X2 - 2, lijn.Y2 - 2, 0, 0);
-                        ellipse.Height = 5;
-                        ellipse.Width = 5;
-                        ellipse.StrokeThickness = 1;
-                        ellipse.Fill = kleur;
-                        cnvs_grafiek.Children.Add(ellipse);
-                    }
-
-                    TextBlock X_waarde = new TextBlock();
-                    X_waarde.Text = i.ToString();
-                    X_waarde.Foreground = new SolidColorBrush(Colors.Black);
-                    X_waarde.Margin = new Thickness(lijn.X2 - 2, 0, 0, 0);
-                    X_waarde.RenderTransform = new ScaleTransform(1, -1);
-                    cnvs_grafiek.Children.Add(X_waarde);
-
-                    cnvs_grafiek.Children.Add(lijn);
-                }
-                Assen(cnvs_grafiek, hoogteinterval);
+                rekening = sichtrekening;
             }
-            else if (ToonSpaarGrafiek == true)
+            else
             {
-                double grootsteSaldo = 0;
-
-                cnvs_grafiek.Children.Clear();
-                double breedteinterval = cnvs_grafiek.Width / spaarrekening.Saldos.Count;
-
-                for (int i = 0; i < spaarrekening.Saldos.Count; i++)
-                {
-                    if (spaarrekening.Saldos.ElementAt(i).Saldo > grootsteSaldo)
-                    {
-                        grootsteSaldo = spaarrekening.Saldos.ElementAt(i).Saldo;
-                    }
-                }
-                double hoogteinterval = cnvs_grafiek.Height / grootsteSaldo;
-
-                for (int i = 0; i < spaarrekening.Saldos.Count; i++)
-                {
-                    Line lijn = new Line();
-                    lijn.X1 = breedteinterval * i;
-                    if (i > 0)
-                    {
-                        lijn.Y1 = spaarrekening.Saldos.ElementAt(i - 1).Saldo * hoogteinterval;
-                    }
-                    else
-                    {
-                        lijn.Y1 = spaarrekening.Saldos.ElementAt(i).Saldo * hoogteinterval;
-                    }
-                    lijn.X2 = lijn.X1 + breedteinterval;
-                    lijn.Y2 = spaarrekening.Saldos.ElementAt(i).Saldo * hoogteinterval;
-                    lijn.Stroke = kleur;
-
-                    if (gedetaileerdenummers == true)
-                    {
-                        TextBlock textBlock = new TextBlock();
-                        textBlock.Text = spaarrekening.Saldos.ElementAt(i).Saldo.ToString();
-                        textBlock.Foreground = new SolidColorBrush(Colors.Black);
-                        textBlock.Margin = new Thickness(lijn.X2, lijn.Y2 + 20, 0, 0);
-                        textBlock.RenderTransform = new ScaleTransform(1, -1);
-                        cnvs_grafiek.Children.Add(textBlock);
-
-                        Ellipse ellipse = new Ellipse();
-                        ellipse.Margin = new Thickness(lijn.X2 - 2, lijn.Y2 - 2, 0, 0);
-                        ellipse.Height = 5;
-                        ellipse.Width = 5;
-                        ellipse.StrokeThickness = 1;
-                        ellipse.Fill = kleur;
-                        cnvs_grafiek.Children.Add(ellipse);
-                    }                    
-
-                    TextBlock X_waarde = new TextBlock();
-                    X_waarde.Text = i.ToString();
-                    X_waarde.Foreground = new SolidColorBrush(Colors.Black);
-                    X_waarde.Margin = new Thickness(lijn.X2 - 2,  0, 0, 0);
-                    X_waarde.RenderTransform = new ScaleTransform(1, -1);
-                    cnvs_grafiek.Children.Add(X_waarde);
-
-                    cnvs_grafiek.Children.Add(lijn);
-                }
-                Assen(cnvs_grafiek, hoogteinterval);
+                rekening = spaarrekening;
             }
+            double grootsteSaldo = 0;
+
+            cnvs_grafiek.Children.Clear();
+            double breedteinterval = cnvs_grafiek.Width / rekening.Saldos.Count;
+
+            for (int i = 0; i < rekening.Saldos.Count; i++)
+            {
+                if (rekening.Saldos[i].Saldo > grootsteSaldo)
+                {
+                    grootsteSaldo = rekening.Saldos[i].Saldo;
+                }
+            }
+            double hoogteinterval = cnvs_grafiek.Height / grootsteSaldo;
+
+            for (int i = 0; i < rekening.Saldos.Count; i++)
+            {
+                Line lijn = new Line();
+                lijn.X1 = breedteinterval * i;
+                if (i > 0)
+                {
+                    lijn.Y1 = rekening.Saldos[i - 1].Saldo * hoogteinterval;
+                }
+                else
+                {
+                    lijn.Y1 = rekening.Saldos[i].Saldo * hoogteinterval;
+                }
+                lijn.X2 = lijn.X1 + breedteinterval;
+                lijn.Y2 = rekening.Saldos[i].Saldo * hoogteinterval;
+                lijn.Stroke = kleur;
+
+                if (gedetaileerdenummers == true)
+                {
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.FontSize = 10;
+                    textBlock.Text = rekening.Saldos[i].Saldo.ToString();
+                    textBlock.Foreground = new SolidColorBrush(Colors.Black);
+                    textBlock.Margin = new Thickness(lijn.X2, lijn.Y2 + 20, 0, 0);
+                    textBlock.RenderTransform = new ScaleTransform(1, -1);
+                    cnvs_grafiek.Children.Add(textBlock);
+
+                    Ellipse ellipse = new Ellipse();
+                    ellipse.Margin = new Thickness(lijn.X2 - 2, lijn.Y2 - 2, 0, 0);
+                    ellipse.Height = 5;
+                    ellipse.Width = 5;
+                    ellipse.StrokeThickness = 1;
+                    ellipse.Fill = kleur;
+                    cnvs_grafiek.Children.Add(ellipse);
+                }
+
+                TextBlock X_waarde = new TextBlock();
+                X_waarde.Text = i.ToString();
+                X_waarde.Foreground = new SolidColorBrush(Colors.Black);
+                X_waarde.Margin = new Thickness(lijn.X2 - 2, 0, 0, 0);
+                X_waarde.RenderTransform = new ScaleTransform(1, -1);
+                cnvs_grafiek.Children.Add(X_waarde);
+
+                cnvs_grafiek.Children.Add(lijn);
+            }
+            Assen(cnvs_grafiek, hoogteinterval);                       
         }
 
         public static void Assen(Canvas cnvs_grafiek, double hoogteinterval)
@@ -152,7 +97,7 @@ namespace Vives
             Y.Y1 = 0;
             Y.X2 = 0;
             Y.Y2 = cnvs_grafiek.Height;
-            Y.Stroke = new SolidColorBrush(Colors.Blue);
+            Y.Stroke = kleur;
             cnvs_grafiek.Children.Add(Y);
 
             Line X = new Line();
@@ -160,7 +105,7 @@ namespace Vives
             X.Y1 = 0;
             X.X2 = cnvs_grafiek.Width;
             X.Y2 = 0;
-            X.Stroke = new SolidColorBrush(Colors.Blue);
+            X.Stroke = kleur;
             cnvs_grafiek.Children.Add(X);
 
             for (double i = 4; i >= 1; i--)

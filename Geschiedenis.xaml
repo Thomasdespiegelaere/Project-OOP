@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_OOP"
         mc:Ignorable="d"
-        Title="Geschiedenis" Height="550" Width="800">
+        Title="Geschiedenis" Height="550" Width="800" ResizeMode="NoResize">
     <StackPanel>
         <GroupBox Margin="10" BorderThickness="2" Header="zichtrekening">
             <RichTextBox Name="tbx_zicht" Height="190" VerticalScrollBarVisibility="Visible" Margin="10"></RichTextBox>            

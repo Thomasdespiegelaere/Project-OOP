@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -190,9 +192,40 @@ namespace Project_OOP
         {
             Geschiedenis geschiedenis = new Geschiedenis();
             geschiedenis.Title = "Geschiedenis";
+            geschiedenis.Owner = this;
             zichtrekening.UpdateTransacties(zichtrekening, geschiedenis);
             spaarrekening.UpdateTransacties(spaarrekening, geschiedenis);
             geschiedenis.Show();
+        }
+
+        private void PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex _regex = new Regex("[^0-9.,-]+");
+
+            e.Handled = _regex.IsMatch(e.Text);
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            cnvs_grafiek.Height = this.Height - 450;
+            double margin_bottom = cnvs_grafiek.Height + 25;
+            cnvs_grafiek.Margin = new Thickness(10, margin_bottom, 10, 10);
+            cnvs_grafiek.Width = 700 * (this.Width / 800);
+            Grafiek.UpdateGrafiek(cnvs_grafiek, zichtrekening, spaarrekening);
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.Height = SystemParameters.PrimaryScreenHeight - 100;
+                this.Width = SystemParameters.PrimaryScreenWidth;
+            }
+            else if (this.WindowState == WindowState.Normal)
+            {
+                this.Height = 550;
+                this.Width = 800;
+            }
         }
     }
 }
