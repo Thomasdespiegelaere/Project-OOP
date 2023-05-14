@@ -66,7 +66,7 @@ namespace Vives
                     double transactie = previous - x;
                     if (transactie > 0)
                     {
-                        string text = "+" + Math.Round(transactie, 2).ToString();
+                        string text = $"{i}: " + "+" + Math.Round(transactie, 2).ToString();
                         Paragraph paragraph = new Paragraph();
                         Run run = new Run(text);
                         run.Foreground = Brushes.Green;
@@ -76,7 +76,7 @@ namespace Vives
                     else
                     {
                         Paragraph paragraph = new Paragraph();
-                        Run run = new Run(Math.Round(transactie, 2).ToString());
+                        Run run = new Run($"{i}: " + Math.Round(transactie, 2).ToString());
                         run.Foreground = Brushes.Red;
                         paragraph.Inlines.Add(run);
                         geschiedenis.tbx_spaar.Document.Blocks.Add(paragraph);
